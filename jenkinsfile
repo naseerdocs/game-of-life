@@ -1,0 +1,21 @@
+node('JDK8')
+{
+    stage ("Source code")
+    {
+        
+        git 'https://github.com/naseerdocs/game-of-life.git'
+    }
+    stage('Build the code')
+    {
+        sh 'mvn clean package'
+    }
+    
+    stage('post build actions')
+    {
+        
+        archiveArtifacts artifacts: 'gameoflife-web/target/*.war', followSymlinks: false
+        junit '**/surefire-reports/*.xml'
+    }
+    
+    
+}
